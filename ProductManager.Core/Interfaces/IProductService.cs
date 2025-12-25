@@ -13,6 +13,6 @@ namespace ProductManager.Core.Interfaces
         Task<Product> AddProductAsync(Product product);
         Task<Product> GetProductByIdAsync(int id);
         Task DeleteProductAsync(int id);
-        Task UpdateProductAsync(Product product);
+        Task UpdateProductAsync(int id, Product product);
     }
 }

@@ -19,7 +19,7 @@ namespace ProductManager.Infrastructure.Sevices
         }
         public async Task<Product> AddProductAsync(Product product)
         {
-            if (product.Name.IsNullOrEmpty()) throw new Exception("Tên sản phẩm không được để trống!!!");
+            if (product.Name.IsNullOrEmpty()) throw new KeyNotFoundException("Tên sản phẩm không được để trống!!!");
             if (product.Price < 0) throw new Exception("Giá sản phẩm phải lớn hơn 0!!!");
             if (product.Stock < 0) throw new Exception("Số lượng tồn kho không được âm!!!");
             return await _repository.AddAsync(product);
@@ -28,28 +28,28 @@ namespace ProductManager.Infrastructure.Sevices
         public async Task DeleteProductAsync(int id)
         {
             var proDel = await _repository.GetByIdAsync(id);
-            if (proDel == null) throw new Exception("Không tìm thấy sản phẩm để xóa!!!");
+            if (proDel == null) throw new KeyNotFoundException("Không tìm thấy sản phẩm để xóa!!!");
             await _repository.DeleteAsync(id);
         }
 
         public async Task<List<Product>> GetAllProductsAsync()
         {
             var products = await _repository.GetAllAsync();
-            if (products.Count == 0) throw new Exception("Không tìm thấy sản phẩm nào cả!!!");
+            if (products.Count == 0) throw new KeyNotFoundException("Không tìm thấy sản phẩm nào cả!!!");
             return products;
         }
 
         public async Task<Product> GetProductByIdAsync(int id)
         {
             var product = await _repository.GetByIdAsync(id);
-            if (product == null) throw new Exception("Không tìm thấy sản phẩm !!!");
+            if (product == null) throw new KeyNotFoundException("Không tìm thấy sản phẩm !!!");
             return product;
         }
 
-        public async Task UpdateProductAsync(Product product)
+        public async Task UpdateProductAsync(int id, Product product)
         {
-            var proUp = await _repository.GetByIdAsync(product.Id);
-            if (proUp == null) throw new Exception("Không tìm thấy sản phẩm để cập nhật!!!");
+            var proUp = await _repository.GetByIdAsync(id);
+            if (proUp == null) throw new KeyNotFoundException("Không tìm thấy sản phẩm để cập nhật!!!");
             proUp.Name = product.Name;
             proUp.Price = product.Price;
             proUp.Stock = product.Stock;
