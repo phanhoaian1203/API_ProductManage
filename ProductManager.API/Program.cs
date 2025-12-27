@@ -6,6 +6,7 @@ using ProductManager.API.Validators;
 using ProductManager.Core.Interfaces;
 using ProductManager.Infrastructure.Data;
 using ProductManager.Infrastructure.Repositories;
+using ProductManager.Infrastructure.Services;
 using ProductManager.Infrastructure.Sevices;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,8 @@ options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectio
 
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<IProductService, ProductService>();
+builder.Services.AddScoped<ICategoryRepository, CategoryRepository>();
+builder.Services.AddScoped<ICategoryService, CategoryService>();
 builder.Services.AddControllers();
 
 //Auto mapper
@@ -23,6 +26,7 @@ builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 //FluentValidator
 builder.Services.AddFluentValidationAutoValidation();
 builder.Services.AddValidatorsFromAssemblyContaining<CreateProductValidator>();
+builder.Services.AddValidatorsFromAssemblyContaining<CreateCategoryValidator>();
 // Add services to the container.
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();

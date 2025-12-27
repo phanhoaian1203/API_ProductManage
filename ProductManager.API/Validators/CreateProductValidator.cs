@@ -8,7 +8,7 @@ namespace ProductManager.API.Validators
         public CreateProductValidator()
         {
             RuleFor(x => x.Name).NotEmpty().WithMessage("Tên sản phẩm không được để trống")
-                .Length(3, 100).WithMessage("Tên sản phẩm phải từ 3 đến 100 ký tự");
+                .Length(3, 100).WithMessage("Tên sản phẩm phải từ 3 đến 200 ký tự");
 
             RuleFor(x => x.Price).GreaterThan(0).WithMessage("Giá sản phẩm phải lớn hơn 0");
 

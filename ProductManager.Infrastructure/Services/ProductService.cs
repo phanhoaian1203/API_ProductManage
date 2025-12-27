@@ -13,12 +13,20 @@ namespace ProductManager.Infrastructure.Sevices
     public class ProductService : IProductService
     {
         private readonly IProductRepository _repository;
-        public ProductService(IProductRepository repository)
+        private readonly ICategoryRepository _repositoryCate;
+        public ProductService(IProductRepository repository, ICategoryRepository repository1)
         {
             _repository = repository;
+            _repositoryCate = repository1;
         }
         public async Task<Product> AddProductAsync(Product product)
-        {           
+        {
+            var category = await _repositoryCate.GetByIdAsync(product.CategoryId);
+            if (category == null)
+            {
+                // Ném lỗi 404 để Middleware bắt
+                throw new KeyNotFoundException($"Danh mục có ID {product.CategoryId} không tồn tại!");
+            }
             return await _repository.AddAsync(product);
         }
 
@@ -50,6 +58,9 @@ namespace ProductManager.Infrastructure.Sevices
             proUp.Name = product.Name;
             proUp.Price = product.Price;
             proUp.Stock = product.Stock;
+            var pro = await _repositoryCate.GetByIdAsync(id);
+            if (pro == null) throw new KeyNotFoundException("Không tìm thấy danh mục để cập nhật!!!");
+            proUp.CategoryId = product.CategoryId;
             await _repository.UpdateAsync(proUp);
         }
     }
