@@ -18,10 +18,7 @@ namespace ProductManager.Infrastructure.Sevices
             _repository = repository;
         }
         public async Task<Product> AddProductAsync(Product product)
-        {
-            //if (product.Name.IsNullOrEmpty()) throw new KeyNotFoundException("Tên sản phẩm không được để trống!!!");
-            //if (product.Price < 0) throw new Exception("Giá sản phẩm phải lớn hơn 0!!!");
-            //if (product.Stock < 0) throw new Exception("Số lượng tồn kho không được âm!!!");
+        {           
             return await _repository.AddAsync(product);
         }
 
