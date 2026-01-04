@@ -24,6 +24,7 @@ namespace ProductManager.Infrastructure.Services
         {
             var category = await _repository.GetByIdAsync(id);
             if (category == null) throw new KeyNotFoundException("Không tìm thấy danh mục để xóa");
+            
             await _repository.DeleteAsync(id);
 
         }
